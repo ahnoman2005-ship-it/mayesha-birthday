@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday My Wife, Mayesha! ❤️</title>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Hind+Siliguri:wght@400;600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+      font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+      color: #333;
+      padding: 15px;
+      perspective: 1000px;
+    }
+
+    /* Floating Items (Hearts, Roses, Balloons) */
+    .floating-item {
+      position: absolute;
+      font-size: 30px;
+      animation: floatUp 4.5s linear infinite;
+      bottom: -60px;
+      z-index: 1;
+      pointer-events: none;
+      filter: drop-shadow(0 5px 5px rgba(0,0,0,0.1));
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(0) rotate(0deg) scale(0.8); opacity: 1; }
+      50% { transform: translateY(-60vh) rotate(180deg) scale(1.2); opacity: 0.9; }
+      100% { transform: translateY(-115vh) rotate(360deg) scale(0.8); opacity: 0; }
+    }
+
+    /* Outer Gift Book Container */
+    .book-container {
+      position: relative;
+      width: 100%;
+      max-width: 430px;
+      height: 670px;
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: 25px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      backdrop-filter: blur(10px);
+      overflow: hidden;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 25px;
+    }
+
+    /* Door Opening Effect Overlay */
+    .door-overlay {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 50;
+      pointer-events: none;
+      display: flex;
+    }
+    .door-left, .door-right {
+      width: 50%; height: 100%;
+      background: linear-gradient(to right, #ff3366, #ff6b81);
+      transition: transform 0.7s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+    .door-overlay.open .door-left { transform: translateX(-100%); }
+    .door-overlay.open .door-right { transform: translateX(100%); }
+
+    /* Base Page Styling */
+    .page {
+      display: none;
+      height: 100%;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .page.active {
+      display: flex;
+    }
+
+    /* SPECIAL TRANSITION ANIMATIONS FOR PHOTOS */
+    .anim-zoom { animation: zoomIn 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+    @keyframes zoomIn {
+      from { opacity: 0; transform: scale(0.3) rotate(-5deg); }
+      to { opacity: 1; transform: scale(1) rotate(0deg); }
+    }
+
+    .anim-flip { animation: flip3D 0.8s ease forwards; }
+    @keyframes flip3D {
+      from { opacity: 0; transform: rotateY(-90deg) scale(0.8); }
+      to { opacity: 1; transform: rotateY(0deg) scale(1); }
+    }
+
+    .anim-slide { animation: slideRight 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards; }
+    @keyframes slideRight {
+      from { opacity: 0; transform: translateX(120px) rotate(10deg); }
+      to { opacity: 1; transform: translateX(0) rotate(0deg); }
+    }
+
+    .anim-fade { animation: fadeUp 0.7s ease forwards; }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      font-family: 'Dancing Script', 'Hind Siliguri', cursive;
+      color: #ff3366;
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+    h2 {
+      color: #ff3366;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 14px;
+      line-height: 1.5;
+      color: #444;
+      margin-top: 6px;
+    }
+
+    /* Gift Box Page 1 */
+    .gift-box {
+      font-size: 90px;
+      cursor: pointer;
+      animation: bounce 1.2s infinite alternate;
+      transition: transform 0.3s;
+    }
+    @keyframes bounce {
+      from { transform: translateY(0) scale(1); }
+      to { transform: translateY(-18px) scale(1.08); }
+    }
+
+    .dancing-text {
+      display: inline-block;
+      font-size: 24px;
+      font-weight: bold;
+      color: #ff3366;
+      animation: dance 0.8s infinite alternate;
+      margin-top: 15px;
+    }
+    @keyframes dance {
+      0% { transform: translateY(0) rotate(-4deg); }
+      100% { transform: translateY(-8px) rotate(4deg); }
+    }
+
+    /* Photo Frame Setup */
+    .photo-frame {
+      width: 100%;
+      height: 220px;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 12px 25px rgba(255, 51, 102, 0.25);
+      border: 4px solid #fff;
+      margin-bottom: 10px;
+      background: #fff;
+      position: relative;
+    }
+    .photo-frame img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.5s;
+    }
+    .photo-frame:hover img {
+      transform: scale(1.05);
+    }
+
+    /* Decorative Emojis on Cards */
+    .love-decor {
+      font-size: 22px;
+      margin: 4px 0;
+    }
+
+    /* Bottom Navigation Controls */
+    .nav-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      margin-top: 10px;
+      z-index: 20;
+    }
+    .btn {
+      background: linear-gradient(45deg, #ff3366, #ff6b81);
+      color: white; border: none;
+      padding: 10px 20px; font-size: 14px; font-weight: 600;
+      border-radius: 30px; cursor: pointer;
+      box-shadow: 0 5px 15px rgba(255, 51, 102, 0.4);
+    }
+    .btn:disabled { background: #ccc; box-shadow: none; cursor: not-allowed; }
+    .page-indicator { font-weight: 600; color: #ff3366; font-size: 14px; }
+  </style>
+</head>
+<body>
+
+  <!-- Audio player -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="https://assets.mixkit.co/music/preview/mixkit-happy-times-158.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Door Overlay -->
+  <div class="door-overlay open" id="doorOverlay">
+    <div class="door-left"></div>
+    <div class="door-right"></div>
+  </div>
+
+  <div id="floating-container"></div>
+
+  <div class="book-container">
+
+    <!-- PAGE 1: Gift Box Opening -->
+    <div class="page active anim-zoom" id="page1">
+      <div class="gift-box" onclick="openGift()">🎁</div>
+      <p style="font-size: 16px;"><b>উপহারটি খুলতে বক্সের ওপর চাপ দাও! ❤️</b></p>
+      <div id="giftResult" style="display: none;">
+        <div class="dancing-text">🎉 Happy Birthday my dear wife! 🌹</div>
+      </div>
+    </div>
+
+    <!-- PAGE 2: Welcome -->
+    <div class="page anim-flip" id="page2">
+      <h2>আমার প্রিয় মায়েশা 🌸</h2>
+      <div class="love-decor">💖 🌹 💖 🌹 💖</div>
+      <p>আজকের এই বিশেষ দিনে তোমার হাসিমুখ দেখতে পাওয়ার চেয়ে আনন্দময় আর কিছুই হতে পারে না।</p>
+    </div>
+
+    <!-- PAGE 3: Photo 1 -->
+    <div class="page anim-slide" id="page3">
+      <h2>শুধু তোমার জন্য 🌹</h2>
+      <div class="photo-frame">
+        <img src="https://lh3.googleusercontent.com/d/1VilMT2KyEk3fZ2IPF79OTFpEeXRg-HFs" alt="Photo 1">
+      </div>
+      <div class="love-decor">❤️ 🌹 💕 🌹 ❤️</div>
+      <p>তোমার মিষ্টি হাসি আমার জীবনের সব ক্লান্তি দূর করে দেয়।</p>
+    </div>
+
+    <!-- PAGE 4: Love Express -->
+    <div class="page anim-fade" id="page4">
+      <h2>আমার জীবনের আলো 🕊️</h2>
+      <p>মায়েশা, তুমি আমার জীবনে আসার পর থেকে সবকিছু অনেক বেশি সুন্দর ও অর্থপূর্ণ হয়ে উঠেছে।</p>
+      <div style="font-size: 40px; margin-top: 15px;">💐🌹🌹💐</div>
+    </div>
+
+    <!-- PAGE 5: Photo 2 -->
+    <div class="page anim-flip" id="page5">
+      <h2>চিরদিনের বন্ধন 💍</h2>
+      <div class="photo-frame">
+        <img src="https://lh3.googleusercontent.com/d/1qAAF8SGvFUfIt61dEdKITnqxwd9Dr2ID" alt="Photo 2">
+      </div>
+      <div class="love-decor">💖 🌺 💖 🌺 💖</div>
+      <p>যত দিন যাবে, আমাদের এই বন্ধন আরও সুদৃঢ় এবং মধুর হবে।</p>
+    </div>
+
+    <!-- PAGE 6: Photo 3 -->
+    <div class="page anim-zoom" id="page6">
+      <h2>স্মৃতির পাতায় তুমি 📸</h2>
+      <div class="photo-frame">
+        <img src="https://lh3.googleusercontent.com/d/16_EmNUTLDrMFzDLDCAnWMfhBpFtlki_Y" alt="Photo 3">
+      </div>
+      <div class="love-decor">💕 🌸 💕 🌸 💕</div>
+      <p>তোমার সাথে কাটানো প্রতিটি মুহূর্ত আমার হৃদয়ে স্বর্ণাক্ষরে লেখা থাকবে।</p>
+    </div>
+
+    <!-- PAGE 7: Photo 4 -->
+    <div class="page anim-slide" id="page7">
+      <h2>আমার মনের রানী 👑</h2>
+      <div class="photo-frame">
+        <img src="https://lh3.googleusercontent.com/d/1OeA9IQ5OynmESJx-i6fjrKS527sEC2P2" alt="Photo 4">
+      </div>
+      <div class="love-decor">❤️ 🌹 ❤️ 🌹 ❤️</div>
+      <p>তোমার ওই সুন্দর চোখের চাহনিতে আমি বারবার নতুন করে প্রেমে পড়ি।</p>
+    </div>
+
+    <!-- PAGE 8: Wishes -->
+    <div class="page anim-fade" id="page8">
+      <h2>তোমার জন্য প্রার্থনা 🤲</h2>
+      <p>আল্লাহ তোমার জীবনকে সুখ, শান্তি ও সুস্থতায় ভরিয়ে দিন। তোমার সব স্বপ্ন যেন সত্যি হয়।</p>
+      <div class="love-decor" style="font-size: 30px; margin-top: 10px;">🤲✨🌸</div>
+    </div>
+
+    <!-- PAGE 9: Photo 5 -->
+    <div class="page anim-flip" id="page9">
+      <h2>অনাবিল ভালোবাসা 💖</h2>
+      <div class="photo-frame">
+        <img src="https://lh3.googleusercontent.com/d/1Yt-pOmVRzvOQiCuIPnFMQ8IhY-Qp2cRu" alt="Photo 5">
+      </div>
+      <div class="love-decor">🌸 💕 🌹 💕 🌸</div>
+      <p>তুমি শুধু আমার স্ত্রী নও, তুমি আমার সেরা বন্ধু এবং জীবনের সেরা অনুভূতি।</p>
+    </div>
+
+    <!-- PAGE 10: Photo 6 -->
+    <div class="page anim-zoom" id="page10">
+      <h2>জীবনের সেরা উপহার 🎁</h2>
+      <div class="photo-frame">
+        <img src="https://lh3.googleusercontent.com/d/1u0nI02_3j9ZMmOL2LtDRONJ_LG_Kpwx8" alt="Photo 6">
+      </div>
+      <div class="love-decor">❤️ 👑 ❤️ 👑 ❤️</div>
+      <p>আমার শূন্য হৃদয়কে পূর্ণতা দেওয়ার জন্য তোমার প্রতি আমি চিরকৃতজ্ঞ।</p>
+    </div>
+
+    <!-- PAGE 11: Photo 7 -->
+    <div class="page anim-slide" id="page11">
+      <h2>মিষ্টি এক অনুভুতি ✨</h2>
+      <div class="photo-frame">
+        <img src="https://lh3.googleusercontent.com/d/1GKDl3uh7RGlR4iM7kb2Jp6Kl9A-dhCp7" alt="Photo 7">
+      </div>
+      <div class="love-decor">💖 🌹 💖 🌹 💖</div>
+      <p>তোমার প্রতিটি হাঁসি যেন আমার পৃথিবীর সমস্ত আলো এনে দেয়।</p>
+    </div>
+
+    <!-- PAGE 12: Photo 8 -->
+    <div class="page anim-flip" id="page12">
+      <h2>আনন্দময় পথচলা 🌅</h2>
+      <div class="photo-frame">
+        <img src="https://lh3.googleusercontent.com/d/1YkoYxfSZdQ6SZxr2ltCgIXj8Yuqx2erM" alt="Photo 8">
+      </div>
+      <div class="love-decor">💕 🌺 💕 🌺 💕</div>
+      <p>সুখে-দুঃখে জীবনভর এভাবেই তোমার হাত ধরে পাশে থাকতে চাই।</p>
+    </div>
+
+    <!-- PAGE 13: Special Message -->
+    <div class="page anim-zoom" id="page13">
+      <h2>তুমি আমার লক্ষ্মী বউ 👑</h2>
+      <p>তুমি আমার ঘরকে যে ভালোবাসায় ভরিয়ে দিয়েছো, তার জন্য আমি চিরকৃতজ্ঞ।</p>
+      <div style="font-size: 40px; margin-top: 15px;">👸🏻👑❤️</div>
+    </div>
+
+    <!-- PAGE 14: Promise -->
+    <div class="page anim-slide" id="page14">
+      <h2>আমার অঙ্গীকার 🤝</h2>
+      <p>কথা দিলাম, কখনো তোমার চোখে পানি আসতে দেবো না। তোমাকে সব সময় আগলে রাখবো।</p>
+      <div class="love-decor" style="font-size: 35px; margin-top: 10px;">🌹💖🤝💖🌹</div>
+    </div>
+
+    <!-- PAGE 15: Grand Celebration -->
+    <div class="page anim-fade" id="page15">
+      <h1>শুভ জন্মদিন, মায়েশা! 🎉🎂</h1>
+      <p>আজকের এই দিনটি তোমার জীবনে বয়ে আনুক অনাবিল আনন্দ। খুব ভালো থাকো আমার বউ!</p>
+      <div style="font-weight: bold; color: #ff3366; font-size: 20px; margin-top: 20px;">
+        Always & Forever Yours ❤️
+      </div>
+    </div>
+
+    <!-- Bottom Controls -->
+    <div class="nav-box">
+      <button class="btn" id="prevBtn" onclick="changePage(-1)" disabled>Previous</button>
+      <span class="page-indicator" id="pageNum">1 / 15</span>
+      <button class="btn" id="nextBtn" onclick="changePage(1)">Next 💖</button>
+    </div>
+
+  </div>
+
+  <script>
+    let currentPage = 1;
+    const totalPages = 15;
+    let musicStarted = false;
+
+    function openGift() {
+      document.querySelector('.gift-box').style.transform = "scale(1.2) rotate(10deg)";
+      document.getElementById('giftResult').style.display = 'block';
+      
+      if(!musicStarted) {
+        document.getElementById('bgMusic').play();
+        musicStarted = true;
+      }
+
+      triggerConfetti();
+      spawnBurstItems(30); // Extra love emojis & roses on box open!
+    }
+
+    function changePage(direction) {
+      if(!musicStarted) {
+        document.getElementById('bgMusic').play();
+        musicStarted = true;
+      }
+
+      const door = document.getElementById('doorOverlay');
+
+      if(currentPage === 3 || currentPage === 14) {
+        door.classList.remove('open');
+      }
+
+      setTimeout(() => {
+        document.getElementById(`page${currentPage}`).classList.remove('active');
+        currentPage += direction;
+        document.getElementById(`page${currentPage}`).classList.add('active');
+
+        document.getElementById('prevBtn').disabled = (currentPage === 1);
+        document.getElementById('nextBtn').innerText = (currentPage === totalPages) ? "Celebrate! 🎉" : "Next 💖";
+        document.getElementById('pageNum').innerText = `${currentPage} / ${totalPages}`;
+
+        door.classList.add('open');
+
+        spawnBurstItems(15);
+        triggerConfetti();
+
+      }, (currentPage === 3 || currentPage === 14) ? 400 : 50);
+    }
+
+    function triggerConfetti() {
+      confetti({ particleCount: 30, spread: 70, origin: { y: 0.8 } });
+    }
+
+    function spawnBurstItems(count = 15) {
+      const items = ['🎈', '🌹', '💖', '✨', '🌸', '🎁', '😍', '💕', '🥰', '🥀', '💓'];
+      for(let i = 0; i < count; i++) {
+        setTimeout(() => {
+          const item = document.createElement('div');
+          item.classList.add('floating-item');
+          item.innerHTML = items[Math.floor(Math.random() * items.length)];
+          item.style.left = Math.random() * 92 + 'vw';
+          item.style.animationDuration = (Math.random() * 2 + 3) + 's';
+          document.getElementById('floating-container').appendChild(item);
+
+          setTimeout(() => { item.remove(); }, 4500);
+        }, i * 120);
+      }
+    }
+
+    /* Continuous Flying Love Emojis in Background */
+    setInterval(() => {
+      const items = ['🎈', '🌹', '❤️', '💖', '🥰', '🌸'];
+      const item = document.createElement('div');
+      item.classList.add('floating-item');
+      item.innerHTML = items[Math.floor(Math.random() * items.length)];
+      item.style.left = Math.random() * 92 + 'vw';
+      item.style.animationDuration = (Math.random() * 3 + 3) + 's';
+      document.getElementById('floating-container').appendChild(item);
+
+      setTimeout(() => { item.remove(); }, 5500);
+    }, 400);
+  </script>
+</body>
+  </html>
