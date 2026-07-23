@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday, My Beloved মায়েশা! ❤️</title>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Hind+Siliguri:wght@400;600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+      font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+      color: #333;
+      padding: 15px;
+    }
+
+    /* Floating Hearts Background Animation */
+    .heart {
+      position: absolute;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 20px;
+      animation: float 6s linear infinite;
+      bottom: -30px;
+      z-index: 1;
+    }
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* Card Container */
+    .book-container {
+      position: relative;
+      width: 100%;
+      max-width: 420px;
+      height: 640px;
+      background: rgba(255, 255, 255, 0.96);
+      border-radius: 25px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+      backdrop-filter: blur(10px);
+      overflow: hidden;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 25px;
+    }
+
+    /* Pages Styling */
+    .page {
+      display: none;
+      height: 100%;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      animation: fadeInSlide 0.6s ease-in-out forwards;
+    }
+
+    .page.active {
+      display: flex;
+    }
+
+    @keyframes fadeInSlide {
+      from { opacity: 0; transform: scale(0.92) translateY(15px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    h1 {
+      font-family: 'Dancing Script', 'Hind Siliguri', cursive;
+      color: #ff3366;
+      font-size: 34px;
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      color: #ff3366;
+      font-size: 26px;
+      margin-bottom: 15px;
+    }
+
+    p {
+      font-size: 15px;
+      line-height: 1.6;
+      color: #444;
+      margin-top: 8px;
+    }
+
+    .photo-frame {
+      width: 100%;
+      height: 240px;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+      border: 4px solid #fff;
+      margin-bottom: 12px;
+      background: #f0f0f0;
+    }
+
+    .photo-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Navigation Buttons */
+    .nav-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .btn {
+      background: linear-gradient(45deg, #ff3366, #ff6b81);
+      color: white;
+      border: none;
+      padding: 12px 22px;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(255, 51, 102, 0.4);
+      transition: all 0.3s ease;
+    }
+
+    .btn:disabled {
+      background: #ccc;
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+
+    .page-indicator {
+      font-weight: 600;
+      color: #ff3366;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Floating Hearts -->
+  <div id="hearts-container"></div>
+
+  <div class="book-container">
+
+    <!-- PAGE 1: Cover -->
+    <div class="page active" id="page1">
+      <div style="font-size: 60px; animation: pulse 1.5s infinite; margin-bottom: 10px;">💌</div>
+      <h1>শুভ জন্মদিন, মায়েশা! ❤️</h1>
+      <p><b>আমার ভালোবাসার ছোট্ট গল্পটি দেখতে নিচে ক্লিক করো 💖</b></p>
+      <p style="font-size: 13px; color: #777; margin-top: 20px;">তোমার জন্মদিনের এই বিশেষ দিনে আমার পক্ষ থেকে ছোট্ট একটি সারপ্রাইজ!</p>
+    </div>
+
+    <!-- PAGE 2: Introduction -->
+    <div class="page" id="page2">
+      <h2>আমার প্রিয় মায়েশা 🌸</h2>
+      <div style="font-size: 45px; margin-bottom: 15px;">✨💖✨</div>
+      <p>
+        তোমার আগমন আমার জীবনে সবচেয়ে সুন্দর উপহার। তুমি আসার পর থেকে প্রতিটি দিন রঙিন এবং আনন্দে ভরপুর হয়ে উঠেছে।
+      </p>
+    </div>
+
+    <!-- PAGE 3: Photo 1 (Link 1) -->
+    <div class="page" id="page3">
+      <h2>আমাদের সুন্দর মুহূর্ত ❤️</h2>
+      <div class="photo-frame">
+        <img src="https://lh3.googleusercontent.com/d/1YkoYxfSZdQ6SZxr2ltCgIXj8Yuqx2erM" alt="Photo 1">
+      </div>
+      <p>তোমার হাসির মাঝে আমি আমার সমস্ত আনন্দ খুঁজে পাই। এই হাসিটা যেন সারা জীবন এমন মিষ্টি থাকে।</p>
+    </div>
+
+    <!-- PAGE 4: Love Letter 1 -->
+    <div class="page" id="page4">
+      <h2>আমার অনুভূতি 🕊️</h2>
+      <p>
+        মায়েশা, প্রতিদিন সকালে ঘুম থেকে উঠে তোমার কথা ভাবা আর দিনশেষে তোমার সাথেই কাটানো সময়গুলো আমার জীবনের সেরা প্রাপ্তি।
+      </p>
+      <div style="font-size: 40px; margin-top: 15px;">💐🌹💐</div>
+    </div>
+
+    <!-- PAGE 5: Photo 2 (Link 2) -->
+    <div class="page" id="page5">
+      <h2>স্মৃতির পাতায় তুমি 📸</h2>
+      <div class="photo-frame">
+        <img src="https://lh3.googleusercontent.com/d/16_EmNUTLDrMFzDLDCAnWMfhBpFtlki_Y" alt="Photo 2">
+      </div>
+      <p>প্রতিটি পদক্ষেপে তোমার হাত ধরে পথ চলতে চাই। তুমি ছাড়া আমার এই জীবন একদম অসম্পূর্ণ।</p>
+    </div>
+
+    <!-- PAGE 6: Photo 3 (Link 3) -->
+    <div class="page" id="page6">
+      <h2>চিরদিনের বন্ধন 💍</h2>
+      <div class="photo-frame">
+        <img src="https://lh3.googleusercontent.com/d/1qAAF8SGvFUfIt61dEdKITnqxwd9Dr2ID" alt="Photo 3">
+      </div>
+      <p>যত দিন যাবে, আমাদের এই ভালোবাসার বন্ধন আরও সুদৃঢ় হতে থাকবে।</p>
+    </div>
+
+    <!-- PAGE 7: Photo 4 (Link 4) -->
+    <div class="page" id="page7">
+      <h2>শুধু তোমার জন্য 🌹</h2>
+      <div class="photo-frame">
+        <img src="https://lh3.googleusercontent.com/d/1VilMT2KyEk3fZ2IPF79OTFpEeXRg-HFs" alt="Photo 4">
+      </div>
+      <p>তোমার সব স্বপ্ন পূরণ হোক, এই প্রার্থনা করি সব সময়।</p>
+    </div>
+
+    <!-- PAGE 8: Deep Love Declaration -->
+    <div class="page" id="page8">
+      <h2>তোমাকে অনেক অনেক ভালোবাসি! 💖</h2>
+      <div style="font-size: 50px; margin: 15px 0;">💖✨💍💐</div>
+      <p>
+        মায়েশা, আমি তোমাকে কতটা ভালোবাসি তা ভাষায় প্রকাশ করতে পারবো না। আমার নিঃশ্বাসে, আমার হৃদস্পন্দনে শুধু তুমিই আছো।
+      </p>
+    </div>
+
+    <!-- PAGE 9: Promise -->
+    <div class="page" id="page9">
+      <h2>আমার ছোট্ট অঙ্গীকার 🤝</h2>
+      <p>
+        সুখে-দুঃখের প্রতিটি মুহূর্তে সব সময় তোমার পাশে থাকবো। সারা জীবন তোমার এই হাতটি শক্ত করে ধরে রাখবো, কথা দিলাম।
+      </p>
+      <div style="font-size: 40px; margin-top: 15px;">❤️🔒❤️</div>
+    </div>
+
+    <!-- PAGE 10: Celebration & Confetti -->
+    <div class="page" id="page10">
+      <h1>শুভ জন্মদিন, মায়েশা! 🎉🎂</h1>
+      <p>
+        আজকের এই দিনটি তোমার জীবনে বয়ে আনুক অনাবিল শান্তি ও সুখ। খুব ভালো থাকো আমার লক্ষ্মী বউ!
+      </p>
+      <div style="font-weight: bold; color: #ff3366; font-size: 20px; margin-top: 20px;">
+        Always & Forever Yours ❤️
+      </div>
+    </div>
+
+    <!-- Bottom Navigation Controls -->
+    <div class="nav-box">
+      <button class="btn" id="prevBtn" onclick="changePage(-1)" disabled>Previous</button>
+      <span class="page-indicator" id="pageNum">1 / 10</span>
+      <button class="btn" id="nextBtn" onclick="changePage(1)">Next 💖</button>
+    </div>
+
+  </div>
+
+  <script>
+    let currentPage = 1;
+    const totalPages = 10;
+
+    function changePage(direction) {
+      document.getElementById(`page${currentPage}`).classList.remove('active');
+      currentPage += direction;
+      document.getElementById(`page${currentPage}`).classList.add('active');
+
+      // Update Navigation Buttons
+      document.getElementById('prevBtn').disabled = (currentPage === 1);
+      document.getElementById('nextBtn').innerText = (currentPage === totalPages) ? "Celebrate! 🎉" : "Next 💖";
+      document.getElementById('pageNum').innerText = `${currentPage} / ${totalPages}`;
+
+      // Trigger Confetti Blast on Page 10
+      if (currentPage === totalPages) {
+        triggerConfetti();
+      }
+    }
+
+    function triggerConfetti() {
+      var duration = 5 * 1000;
+      var end = Date.now() + duration;
+
+      (function frame() {
+        confetti({ particleCount: 7, angle: 60, spread: 55, origin: { x: 0 } });
+        confetti({ particleCount: 7, angle: 120, spread: 55, origin: { x: 1 } });
+        if (Date.now() < end) { requestAnimationFrame(frame); }
+      })();
+    }
+
+    // Generate Floating Hearts Background Animation
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.innerHTML = '❤️';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = Math.random() * 3 + 3 + 's';
+      document.getElementById('hearts-container').appendChild(heart);
+
+      setTimeout(() => { heart.remove(); }, 6000);
+    }
+    setInterval(createHeart, 400);
+  </script>
+</body>
+</html>
